@@ -11,6 +11,9 @@ import numpy as np
 import roar_py_interface
 print("hi")
 print("hellooeoeoe")
+print("hellooeoeoe")
+print("hellooeoeoe")
+print("hellooeoeoe")
 
 def normalize_rad(rad : float):
     return (rad + np.pi) % (2 * np.pi) - np.pi
