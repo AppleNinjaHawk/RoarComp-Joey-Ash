@@ -9,8 +9,7 @@ from typing import List, Tuple, Dict, Optional
 import math
 import numpy as np
 import roar_py_interface
-print("hi")
-print("hello")
+
 
 def normalize_rad(rad : float):
     return (rad + np.pi) % (2 * np.pi) - np.pi
