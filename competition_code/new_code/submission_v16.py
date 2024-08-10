@@ -9,11 +9,7 @@ from typing import List, Tuple, Dict, Optional
 import math
 import numpy as np
 import roar_py_interface
-print("hi")
-print("hellooeoeoe")
-print("hellooeoeoe")
-print("hellooeoeoe")
-print("hellooeoeoe")
+
 
 def normalize_rad(rad : float):
     return (rad + np.pi) % (2 * np.pi) - np.pi
@@ -536,7 +532,7 @@ class ThrottleController():
 
     def __init__(self):
         self.max_radius = 10000
-        self.max_speed = 300
+        self.max_speed = 350
         self.intended_target_distance = [0, 30, 60, 90, 120, 150, 180]
         self.target_distance = [0, 30, 60, 90, 120, 150, 180]
         self.close_index = 0
@@ -620,8 +616,8 @@ class ThrottleController():
         #             + " maxs= " + str(round(speed_data.recommended_speed_now, 2)) + " pcnt= " + str(round(percent_of_max, 2)))
 
         percent_change_per_tick = 0.07 # speed drop for one time-tick of braking
-        speed_up_threshold = 0.99
-        throttle_decrease_multiple = 0.7
+        speed_up_threshold = 1
+        throttle_decrease_multiple = 0.8
         throttle_increase_multiple = 1.25
         percent_speed_change = (speed_data.current_speed - self.previous_speed) / (self.previous_speed + 0.0001) # avoid division by zero
 
