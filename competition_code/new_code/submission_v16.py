@@ -10,7 +10,6 @@ import math
 import numpy as np
 import roar_py_interface
 
-
 def normalize_rad(rad : float):
     return (rad + np.pi) % (2 * np.pi) - np.pi
 
@@ -495,24 +494,36 @@ class LatPIDController():
 
         return lat_control
     
-    def find_k_values(self, cur_section, current_speed: float, config: dict) -> np.array:
-        k_p, k_d, k_i = 1, 0, 0
-        if cur_section in [8, 9, 10, 11]:
-        #   return np.array([0.3, 0.1, 0.25]) # ok for mu=1.2
-        #   return np.array([0.2, 0.03, 0.15])
-        #   return np.array([0.3, 0.06, 0.03]) # ok for mu=1.8
-        #   return np.array([0.42, 0.05, 0.02]) # ok for mu=2.0
-        #   return np.array([0.45, 0.05, 0.02]) # ok for mu=2.2
-          return np.array([0.58, 0.05, 0.02]) # 
-        # if cur_section in [12]:
-        #   return np.array([0.4, 0.05, 0.02]) # 
+    # def find_k_values(self, cur_section, current_speed: float, config: dict) -> np.array:
+    #     k_p, k_d, k_i = 1, 0, 0
+    #     if cur_section in [8, 9, 10, 11]:
+    #     #   return np.array([0.3, 0.1, 0.25]) # ok for mu=1.2
+    #     #   return np.array([0.2, 0.03, 0.15])
+    #     #   return np.array([0.3, 0.06, 0.03]) # ok for mu=1.8
+    #     #   return np.array([0.42, 0.05, 0.02]) # ok for mu=2.0
+    #     #   return np.array([0.45, 0.05, 0.02]) # ok for mu=2.2
+    #       return np.array([0.58, 0.05, 0.02]) # 
+    #     # if cur_section in [12]:
+    #     #   return np.array([0.4, 0.05, 0.02]) # 
 
+    #     for speed_upper_bound, kvalues in config.items():
+    #         speed_upper_bound = float(speed_upper_bound)
+    #         if current_speed < speed_upper_bound:
+    #             k_p, k_d, k_i = kvalues["Kp"], kvalues["Kd"], kvalues["Ki"]
+    #             break
+    #     return np.array([k_p, k_d, k_i])
+    # Adjust PID coefficients
+    def find_k_values(self, cur_section, current_speed: float, config: dict) -> np.array:
+        k_p, k_d, k_i = 1.2, 0.1, 0.0  # Increase k_p and k_d
+        if cur_section in [8, 9, 10, 11]:
+            return np.array([0.65, 0.08, 0.02])  # Adjusted for faster steering
         for speed_upper_bound, kvalues in config.items():
             speed_upper_bound = float(speed_upper_bound)
             if current_speed < speed_upper_bound:
                 k_p, k_d, k_i = kvalues["Kp"], kvalues["Kd"], kvalues["Ki"]
                 break
         return np.array([k_p, k_d, k_i])
+
 
     
     def normalize_rad(rad : float):
@@ -616,7 +627,7 @@ class ThrottleController():
         #             + " maxs= " + str(round(speed_data.recommended_speed_now, 2)) + " pcnt= " + str(round(percent_of_max, 2)))
 
         percent_change_per_tick = 0.07 # speed drop for one time-tick of braking
-        speed_up_threshold = 1
+        speed_up_threshold = 0.99
         throttle_decrease_multiple = 0.8
         throttle_increase_multiple = 1.25
         percent_speed_change = (speed_data.current_speed - self.previous_speed) / (self.previous_speed + 0.0001) # avoid division by zero
