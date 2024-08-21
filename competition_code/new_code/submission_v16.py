@@ -524,7 +524,7 @@ class ThrottleController():
 
     def __init__(self):
         self.max_radius = 10000
-        self.max_speed = 300
+        self.max_speed = 350
         self.intended_target_distance = [0, 30, 60, 90, 120, 150, 180]
         self.target_distance = [0, 30, 60, 90, 120, 150, 180]
         self.close_index = 0

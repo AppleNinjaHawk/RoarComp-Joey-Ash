@@ -12,7 +12,8 @@ import carla
 import numpy as np
 import gymnasium as gym
 import asyncio
-
+#hello 
+print("hello")
 class RoarCompetitionRule:
     def __init__(
         self,
